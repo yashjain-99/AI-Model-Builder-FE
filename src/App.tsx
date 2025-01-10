@@ -1,10 +1,12 @@
 import "./App.css";
+import Sidebar from "@/components/Sidebar";
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+    <main className="grid grid-cols-[auto_1fr] min-h-dvh">
+      <Sidebar />
+      <div className="overflow-y-auto w-[1228px]"></div>
+    </main>
   );
 }
 
