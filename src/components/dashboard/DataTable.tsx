@@ -1,8 +1,10 @@
 import * as React from "react";
 import {
   SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -19,11 +21,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TABLE_DATA } from "@/constants";
+import Filters from "./data-table/Filters";
 
 const data: ModelInfo[] = TABLE_DATA;
 
 function DataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -32,11 +37,17 @@ function DataTable() {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    state: { sorting },
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      sorting,
+      columnVisibility,
+    },
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-4">
+      <Filters table={table} />
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
