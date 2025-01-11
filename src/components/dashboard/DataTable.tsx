@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  PaginationState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -10,7 +11,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button";
 import columns from "@/components/dashboard/data-table/Columns";
 import {
   Table,
@@ -21,7 +21,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TABLE_DATA } from "@/constants";
-import Filters from "./data-table/Filters";
+import Filters from "@/components/dashboard/data-table/Filters";
+import Paginator from "@/components/dashboard/data-table/Paginator";
 
 const data: ModelInfo[] = TABLE_DATA;
 
@@ -29,6 +30,10 @@ function DataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
 
   const table = useReactTable({
     data,
@@ -39,11 +44,23 @@ function DataTable() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnVisibility,
+      pagination,
     },
   });
+
+  const startIndex =
+    table.getState().pagination.pageIndex *
+      table.getState().pagination.pageSize +
+    1;
+  const endIndex = Math.min(
+    startIndex + table.getState().pagination.pageSize - 1,
+    table.getRowModel().rows.length
+  );
+  const totalResults = table.getRowModel().rows.length;
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -91,29 +108,15 @@ function DataTable() {
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end space-x-2 mt-8 py-4">
+      <div className="flex items-center justify-between space-x-2 mt-8 p-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Showing {startIndex} to {endIndex} of {totalResults} results
         </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+        <Paginator
+          currentPage={table.getState().pagination.pageIndex + 1}
+          totalPages={table.getPageCount()}
+          onPageChange={(pageNumber) => table.setPageIndex(pageNumber - 1)}
+        />
       </div>
     </div>
   );
