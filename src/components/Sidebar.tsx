@@ -1,6 +1,7 @@
 import { SIDEBAR_FIELDS } from "@/constants";
 import BrandHeader from "@/components/BrandHeader";
-import SidebarItemSet from "@/components/Sidebar/SidebarItemSet";
+import SidebarItemSet from "@/components/sidebar/SidebarItemSet";
+import { ChevronLeft } from "lucide-react";
 
 const Sidebar = () => {
   return (
@@ -16,8 +17,11 @@ const Sidebar = () => {
       <div className="fixed inset-0 bg-black opacity-50 lg:hidden peer-checked:block hidden"></div>
 
       <section className="bg-[#F3F9FF] lg:bg-inherit min-h-screen h-full flex flex-col gap-4 items-start fixed lg:relative top-0 left-0 lg:left-auto z-40 transition-transform transform -translate-x-full lg:translate-x-0 peer-checked:translate-x-0">
-        <header className="px-5 bg-[#F3F9FF] h-24 flex items-center justify-center">
+        <header className="px-5 bg-[#F3F9FF] h-24 flex items-center justify-center relative">
           <BrandHeader />
+          <div className="absolute bg-white right-0 ">
+            <ChevronLeft className=" text-slate-600 text-sm h-6 w-4 " />
+          </div>
         </header>
         <nav className="flex flex-col gap-6 px-5 w-full ">
           {SIDEBAR_FIELDS.map((item) => (
