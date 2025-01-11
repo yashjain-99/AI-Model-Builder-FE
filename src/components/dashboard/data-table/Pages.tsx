@@ -13,7 +13,7 @@ export const generatePaginationLinks = (
   if (totalPages <= 6) {
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <PaginationItem key={i}>
+        <PaginationItem key={`page-${i}`}>
           <PaginationLink
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
@@ -26,7 +26,7 @@ export const generatePaginationLinks = (
   } else {
     for (let i = 1; i <= 2; i++) {
       pages.push(
-        <PaginationItem key={i}>
+        <PaginationItem key={`page-${i}`}>
           <PaginationLink
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
@@ -37,9 +37,9 @@ export const generatePaginationLinks = (
       );
     }
     if (2 < currentPage && currentPage < totalPages - 1) {
-      pages.push(<PaginationEllipsis />);
+      pages.push(<PaginationEllipsis key="ellipsis-start" />);
       pages.push(
-        <PaginationItem key={currentPage}>
+        <PaginationItem key={`page-${currentPage}`}>
           <PaginationLink
             onClick={() => onPageChange(currentPage)}
             isActive={true}
@@ -49,10 +49,10 @@ export const generatePaginationLinks = (
         </PaginationItem>
       );
     }
-    pages.push(<PaginationEllipsis />);
+    pages.push(<PaginationEllipsis key="ellipsis-end" />);
     for (let i = totalPages - 1; i <= totalPages; i++) {
       pages.push(
-        <PaginationItem key={i}>
+        <PaginationItem key={`page-${i}`}>
           <PaginationLink
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
