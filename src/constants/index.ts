@@ -1,7 +1,7 @@
 import { Layers, LayoutDashboard, NotepadText, Settings } from "lucide-react";
 import React from "react";
 
-import SupportSvg from "@/assets/support.svg";
+import SupportSvg from "./support";
 
 interface SidebarField {
   label: string;
@@ -54,7 +54,7 @@ export const SIDEBAR_FIELDS: SidebarField[] = [
       {
         label: "Support",
         id: "support",
-        icon: React.createElement("img", { src: SupportSvg, alt: "Support" }),
+        icon: React.createElement(SupportSvg),
       },
     ],
   },
