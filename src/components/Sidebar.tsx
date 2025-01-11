@@ -1,6 +1,6 @@
 import { SIDEBAR_FIELDS } from "@/constants";
 import BrandHeader from "@/components/BrandHeader";
-import SidebarItemSet from "./SidebarItemSet";
+import SidebarItemSet from "@/components/Sidebar/SidebarItemSet";
 
 const Sidebar = () => {
   return (
